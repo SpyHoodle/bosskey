@@ -5,24 +5,24 @@
 #|  _ \ / _ \/ __/ __| |/ / _ \ | | |
 #| |_) | (_) \__ \__ \   <  __/ |_| |
 #|____/ \___/|___/___/_|\_\___|\__, |
-#                              |___/ v1.0
+#                              |___/ v1.1
 # Simple script to mute and lock a computer
 
 case $1 in
-	"undo")
-		# Unmute the volume (don't toggle)
-		pamixer --unmute
+  "undo")
+    # Unmute the volume (don't toggle) + refresh dwmblocks
+    pamixer --unmute; kill -39 $(pidof dwmblocks)
 
-		;;
+    ;;
 
-	*)
-		# Mute the volume (don't toggle)
-		pamixer --mute
+  *)
+    # Mute the volume (don't toggle) + refresh dwmblocks
+    pamixer --mute; kill -39 $(pidof dwmblocks)
 
-		# Pause any media currently playing
-		playerctl pause
+    # Pause any media currently playing
+    playerctl pause
 
-		# And finally, lock the screen using slock
-		slock
-		;;
+    # And finally, lock the screen using slock
+    slock
+    ;;
 esac
