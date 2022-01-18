@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# ____                _
+#| __ )  ___  ___ ___| | _____ _   _
+#|  _ \ / _ \/ __/ __| |/ / _ \ | | |
+#| |_) | (_) \__ \__ \   <  __/ |_| |
+#|____/ \___/|___/___/_|\_\___|\__, |
+#                              |___/ v1.0
+# Simple script to mute and lock a computer
+
+case $1 in
+	"undo")
+		# Unmute the volume (don't toggle)
+		pamixer --unmute
+
+		;;
+
+	*)
+		# Mute the volume (don't toggle)
+		pamixer --mute
+
+		# Pause any media currently playing
+		playerctl pause
+
+		# And finally, lock the screen using slock
+		slock
+		;;
+esac
