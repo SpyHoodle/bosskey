@@ -1,2 +1,9 @@
-# bosskey
-Quickly mute and lock your computer
+![Bosskey Logo](https://file.coffee/u/UYKRR1qjktBdPA.png)
+
+# Bosskey
+An extremely simple shell script to quickly mute, pause media and lock your computer.
+
+# Dependencies
+- slock - for locking the computer
+- pamixer - for muting and unmuting
+- playerctl - for pausing any media
