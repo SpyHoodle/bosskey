@@ -2,6 +2,8 @@
 
 # Bosskey
 An extremely simple shell script to quickly mute, pause media and lock your computer.
+Run `bosskey` with no arguments to lock.
+Run `bosskey undo` to unmute.
 
 # Dependencies
 - slock - for locking the computer
