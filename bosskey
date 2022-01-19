@@ -8,21 +8,43 @@
 #                              |___/ v1.1
 # Simple script to mute and lock a computer
 
+refresh_status () {
+  case $1 in
+    "dwmblocks")
+      # Refresh dwmblocks
+      kill -39 $(pidof dwmblocks)
+
+      ;;
+
+    *)
+      echo "bosskey: statusbar not found"
+
+      ;;
+  esac
+}
+
 case $1 in
   "undo")
     # Unmute the volume (don't toggle) + refresh dwmblocks
-    pamixer --unmute; kill -39 $(pidof dwmblocks)
+    pamixer --unmute
+
+    # Refresh the statusbar
+    refresh_status($3)
+
+
+    # Refresh the statusbar
 
     ;;
 
   *)
     # Mute the volume (don't toggle) + refresh dwmblocks
-    pamixer --mute; kill -39 $(pidof dwmblocks)
+    pamixer --mute
 
     # Pause any media currently playing
     playerctl pause
 
     # And finally, lock the screen using slock
     slock
+
     ;;
 esac
