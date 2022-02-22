@@ -1,50 +1,38 @@
 #!/bin/sh
 
-# ____                _
-#| __ )  ___  ___ ___| | _____ _   _
-#|  _ \ / _ \/ __/ __| |/ / _ \ | | |
-#| |_) | (_) \__ \__ \   <  __/ |_| |
-#|____/ \___/|___/___/_|\_\___|\__, |
-#                              |___/ v1.1
-# Simple script to mute and lock a computer
+#  ____                _
+# | __ )  ___  ___ ___| | _____ _   _
+# |  _ \ / _ \/ __/ __| |/ / _ \ | | |
+# | |_) | (_) \__ \__ \   <  __/ |_| |
+# |____/ \___/|___/___/_|\_\___|\__, |
+#                               |___/ v1.1
+# GitHub: https://github.com/SpyHoodle/bosskey
 
-refresh_status () {
-  case $1 in
-    "dwmblocks")
-      # Refresh dwmblocks
-      kill -39 $(pidof dwmblocks)
 
-      ;;
+function undo() {
+  # Unmute the volume
+  pamixer --unmute
 
-    *)
-      echo "bosskey: statusbar not found"
-
-      ;;
-  esac
+  # Refresh the status bar
+  kill -35 $(pidof dwmblocks)
 }
 
-case $1 in
-  "undo")
-    # Unmute the volume (don't toggle) + refresh dwmblocks
-    pamixer --unmute
+while getopts "lu" options; do
+  case $options in
+    l)
+      # Mute the volume
+      pamixer --mute
 
-    # Refresh the statusbar
-    refresh_status($3)
+      # Pause any playing media
+      playerctl pause
 
+      # Lock the screen using slock(1)
+      slock
+      ;;
 
-    # Refresh the statusbar
-
-    ;;
-
-  *)
-    # Mute the volume (don't toggle) + refresh dwmblocks
-    pamixer --mute
-
-    # Pause any media currently playing
-    playerctl pause
-
-    # And finally, lock the screen using slock
-    slock
-
-    ;;
-esac
+    u)
+      # Once unlocked, only unmute the volume
+      undo
+      ;;
+  esac
+done
